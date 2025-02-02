@@ -1,0 +1,23 @@
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  express-app:
+    build: .
+    container_name: express-app
+
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    environment:
+      MONGO_URI: "mongodb+srv://Admin:Admin@cluster0.fo3ui.mongodb.net/url-shortener?retryWrites=true&w=majority&appName=Cluster0"
+      BASE_URL: "https://shorten-url-api-backend-prod.onrender.com"
+
+volumes:
+  mongo_data:
